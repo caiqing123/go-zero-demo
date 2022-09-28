@@ -1,0 +1,37 @@
+syntax = "v1"
+
+info(
+	title: "demo中心服务"
+	desc: "demo中心服务"
+	author: ""
+	email: ""
+	version: "v1.0"
+)
+
+import (
+	"test/test.api"
+)
+
+//============================> demo v1 <============================
+@server(
+	prefix: demo/v1
+	group: test
+)
+service demo {
+	
+	@doc "list"
+	@handler list
+	get /test/list (ListReq) returns (ListResp)
+	
+	@doc "add"
+	@handler add
+	post /test/add (AddReq) returns (AddResp)
+	
+	@doc "updata"
+	@handler updata
+	post /test/updata (UpdateReq) returns (UpdateResp)
+	
+	@doc "del"
+	@handler del
+	post /test/delete (delReq) returns (delResp)
+}

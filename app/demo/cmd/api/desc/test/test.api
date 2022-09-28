@@ -1,0 +1,58 @@
+syntax = "v1"
+
+info(
+    title: "test实例"
+    desc: "test实例"
+    author: ""
+    email: ""
+    version: "v1.0"
+)
+
+type Test {
+    Id int64 `json:"id"`
+    Mobile string `json:"mobile"`
+    Nickname string `json:"nickname"`
+}
+
+type (
+    ListReq {
+        Mobile string `json:"mobile,optional"`
+        Nickname string `json:"nickname,optional"`
+        Page     int64 `json:"page"`
+        PageSize int64 `json:"pageSize"`
+    }
+    ListResp {
+        TestInfo []Test `json:"testInfo"`
+        TotalCount int64 `json:"totalCount"`
+    }
+)
+
+type (
+    AddReq {
+        Mobile string `json:"mobile"`
+        Nickname string `json:"nickname"`
+    }
+    AddResp {
+        TestInfo Test `json:"testInfo"`
+    }
+)
+
+type (
+    UpdateReq {
+        Id int64 `json:"id"`
+        Mobile string `json:"mobile"`
+        Nickname string `json:"nickname"`
+    }
+    UpdateResp {
+        TestInfo Test `json:"testInfo"`
+    }
+)
+
+type (
+    delReq {
+        Id int64 `json:"id"`
+    }
+    delResp {
+        Msg string `json:"msg"`
+    }
+)

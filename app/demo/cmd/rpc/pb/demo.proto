@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+option go_package = "./pb";
+
+package pb;
+
+
+//model
+message Test {
+  int64 id = 1;
+  string mobile = 2;
+  string nickname =3;
+}
+
+
+//req 、resp
+message ListReq {
+  string mobile = 1;
+  string nickname = 2;
+  int64 Page = 3;
+  int64 PageSize = 4;
+}
+message ListResp {
+  repeated Test testInfo = 1;
+  int64 TotalCount = 2;
+}
+
+message AddReq {
+  string mobile = 1;
+  string nickname = 2;
+}
+message AddResp {
+  Test testInfo = 1;
+}
+
+message UpdateReq {
+  int64  id = 1;
+  string nickname = 2;
+  string mobile = 3;
+}
+message UpdateResp {
+  Test testInfo = 1;
+}
+
+message delReq {
+  int64  id = 1;
+}
+message delResp {
+  string  msg = 1;
+}
+
+
+//service
+service demo {
+  rpc list(ListReq) returns(ListResp);
+  rpc add(AddReq) returns(AddResp);
+  rpc updata(UpdateReq) returns(UpdateResp);
+  rpc del(delReq) returns(delResp);
+}
