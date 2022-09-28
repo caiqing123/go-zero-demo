@@ -14,6 +14,7 @@ import (
 	"go-zero-demo/app/demo/cmd/rpc/internal/server"
 	"go-zero-demo/app/demo/cmd/rpc/internal/svc"
 	"go-zero-demo/app/demo/cmd/rpc/pb"
+	"go-zero-demo/common/interceptor/rpcserver"
 )
 
 var configFile = flag.String("f", "etc/demo.yaml", "the config file")
@@ -32,6 +33,8 @@ func main() {
 			reflection.Register(grpcServer)
 		}
 	})
+
+	s.AddUnaryInterceptors(rpcserver.LoggerInterceptor)
 
 	defer s.Stop()
 

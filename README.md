@@ -149,3 +149,24 @@ func (l *ListLogic) List(in *pb.ListReq) (*pb.ListResp, error) {
     }, nil
 }
 ```
+
+3.rpc 入口文件添加拦截器 s.AddUnaryInterceptors(rpcserver.LoggerInterceptor)
+
+4.api 入口添加错误返回处理
+
+```go
+// 自定义错误 api处调用errorx.NewDefaultError("用户名不存在"),
+httpx.SetErrorHandler(func(err error) (int, interface{}) {
+    causeErr := errors.Cause(err)                  // err类型
+    if e, ok := causeErr.(*errorx.CodeError); ok { //自定义错误类型
+        //自定义CodeError
+        return http.StatusOK, e.Data()
+    } else {
+        if gstatus, ok := status.FromError(causeErr); ok { // grpc err错误
+            grpcCode := int(gstatus.Code())
+            return http.StatusOK, errorx.CodeError{Code: grpcCode, Msg: gstatus.Message()}
+        }
+    }
+    return http.StatusOK, errorx.CodeError{Code: errorx.DefaultCode, Msg: err.Error()}
+})
+```
