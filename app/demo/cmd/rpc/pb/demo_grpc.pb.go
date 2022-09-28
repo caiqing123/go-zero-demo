@@ -24,7 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 type DemoClient interface {
 	List(ctx context.Context, in *ListReq, opts ...grpc.CallOption) (*ListResp, error)
 	Add(ctx context.Context, in *AddReq, opts ...grpc.CallOption) (*AddResp, error)
-	Updata(ctx context.Context, in *UpdateReq, opts ...grpc.CallOption) (*UpdateResp, error)
+	Update(ctx context.Context, in *UpdateReq, opts ...grpc.CallOption) (*UpdateResp, error)
 	Del(ctx context.Context, in *DelReq, opts ...grpc.CallOption) (*DelResp, error)
 }
 
@@ -54,9 +54,9 @@ func (c *demoClient) Add(ctx context.Context, in *AddReq, opts ...grpc.CallOptio
 	return out, nil
 }
 
-func (c *demoClient) Updata(ctx context.Context, in *UpdateReq, opts ...grpc.CallOption) (*UpdateResp, error) {
+func (c *demoClient) Update(ctx context.Context, in *UpdateReq, opts ...grpc.CallOption) (*UpdateResp, error) {
 	out := new(UpdateResp)
-	err := c.cc.Invoke(ctx, "/pb.demo/updata", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/pb.demo/update", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -78,7 +78,7 @@ func (c *demoClient) Del(ctx context.Context, in *DelReq, opts ...grpc.CallOptio
 type DemoServer interface {
 	List(context.Context, *ListReq) (*ListResp, error)
 	Add(context.Context, *AddReq) (*AddResp, error)
-	Updata(context.Context, *UpdateReq) (*UpdateResp, error)
+	Update(context.Context, *UpdateReq) (*UpdateResp, error)
 	Del(context.Context, *DelReq) (*DelResp, error)
 	mustEmbedUnimplementedDemoServer()
 }
@@ -93,8 +93,8 @@ func (UnimplementedDemoServer) List(context.Context, *ListReq) (*ListResp, error
 func (UnimplementedDemoServer) Add(context.Context, *AddReq) (*AddResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Add not implemented")
 }
-func (UnimplementedDemoServer) Updata(context.Context, *UpdateReq) (*UpdateResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Updata not implemented")
+func (UnimplementedDemoServer) Update(context.Context, *UpdateReq) (*UpdateResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
 func (UnimplementedDemoServer) Del(context.Context, *DelReq) (*DelResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Del not implemented")
@@ -148,20 +148,20 @@ func _Demo_Add_Handler(srv interface{}, ctx context.Context, dec func(interface{
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Demo_Updata_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Demo_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DemoServer).Updata(ctx, in)
+		return srv.(DemoServer).Update(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.demo/updata",
+		FullMethod: "/pb.demo/update",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DemoServer).Updata(ctx, req.(*UpdateReq))
+		return srv.(DemoServer).Update(ctx, req.(*UpdateReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -200,8 +200,8 @@ var Demo_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Demo_Add_Handler,
 		},
 		{
-			MethodName: "updata",
-			Handler:    _Demo_Updata_Handler,
+			MethodName: "update",
+			Handler:    _Demo_Update_Handler,
 		},
 		{
 			MethodName: "del",

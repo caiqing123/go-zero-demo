@@ -26,7 +26,7 @@ type (
 	Demo interface {
 		List(ctx context.Context, in *ListReq, opts ...grpc.CallOption) (*ListResp, error)
 		Add(ctx context.Context, in *AddReq, opts ...grpc.CallOption) (*AddResp, error)
-		Updata(ctx context.Context, in *UpdateReq, opts ...grpc.CallOption) (*UpdateResp, error)
+		Update(ctx context.Context, in *UpdateReq, opts ...grpc.CallOption) (*UpdateResp, error)
 		Del(ctx context.Context, in *DelReq, opts ...grpc.CallOption) (*DelResp, error)
 	}
 
@@ -51,9 +51,9 @@ func (m *defaultDemo) Add(ctx context.Context, in *AddReq, opts ...grpc.CallOpti
 	return client.Add(ctx, in, opts...)
 }
 
-func (m *defaultDemo) Updata(ctx context.Context, in *UpdateReq, opts ...grpc.CallOption) (*UpdateResp, error) {
+func (m *defaultDemo) Update(ctx context.Context, in *UpdateReq, opts ...grpc.CallOption) (*UpdateResp, error) {
 	client := pb.NewDemoClient(m.cli.Conn())
-	return client.Updata(ctx, in, opts...)
+	return client.Update(ctx, in, opts...)
 }
 
 func (m *defaultDemo) Del(ctx context.Context, in *DelReq, opts ...grpc.CallOption) (*DelResp, error) {

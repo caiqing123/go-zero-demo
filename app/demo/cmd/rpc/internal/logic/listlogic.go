@@ -42,7 +42,7 @@ func (l *ListLogic) List(in *pb.ListReq) (*pb.ListResp, error) {
 	test, err := l.svcCtx.TestModel.FindPageListByPage(l.ctx, whereBuilder, in.Page, in.PageSize, "")
 
 	if err != nil && err != model.ErrNotFound {
-		return nil, errors.Wrapf(err, "List find test db err , id:%d , err:%v", err.Error())
+		return nil, errors.Wrapf(err, "List find test db err , err:%v", err.Error())
 	}
 
 	if test == nil {

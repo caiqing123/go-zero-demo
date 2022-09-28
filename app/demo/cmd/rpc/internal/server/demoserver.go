@@ -32,9 +32,9 @@ func (s *DemoServer) Add(ctx context.Context, in *pb.AddReq) (*pb.AddResp, error
 	return l.Add(in)
 }
 
-func (s *DemoServer) Updata(ctx context.Context, in *pb.UpdateReq) (*pb.UpdateResp, error) {
-	l := logic.NewUpdataLogic(ctx, s.svcCtx)
-	return l.Updata(in)
+func (s *DemoServer) Update(ctx context.Context, in *pb.UpdateReq) (*pb.UpdateResp, error) {
+	l := logic.NewUpdateLogic(ctx, s.svcCtx)
+	return l.Update(in)
 }
 
 func (s *DemoServer) Del(ctx context.Context, in *pb.DelReq) (*pb.DelResp, error) {

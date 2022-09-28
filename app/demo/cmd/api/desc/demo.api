@@ -27,9 +27,9 @@ service demo {
 	@handler add
 	post /test/add (AddReq) returns (AddResp)
 	
-	@doc "updata"
-	@handler updata
-	post /test/updata (UpdateReq) returns (UpdateResp)
+	@doc "update"
+	@handler update
+	post /test/update (UpdateReq) returns (UpdateResp)
 	
 	@doc "del"
 	@handler del

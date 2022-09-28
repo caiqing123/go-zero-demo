@@ -20,7 +20,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-//model
+// model
 type Test struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -84,7 +84,7 @@ func (x *Test) GetNickname() string {
 	return ""
 }
 
-//req 、resp
+// req 、resp
 type ListReq struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -599,11 +599,11 @@ var file_demo_proto_depIdxs = []int32{
 	0, // 2: pb.UpdateResp.testInfo:type_name -> pb.Test
 	1, // 3: pb.demo.list:input_type -> pb.ListReq
 	3, // 4: pb.demo.add:input_type -> pb.AddReq
-	5, // 5: pb.demo.updata:input_type -> pb.UpdateReq
+	5, // 5: pb.demo.update:input_type -> pb.UpdateReq
 	7, // 6: pb.demo.del:input_type -> pb.delReq
 	2, // 7: pb.demo.list:output_type -> pb.ListResp
 	4, // 8: pb.demo.add:output_type -> pb.AddResp
-	6, // 9: pb.demo.updata:output_type -> pb.UpdateResp
+	6, // 9: pb.demo.update:output_type -> pb.UpdateResp
 	8, // 10: pb.demo.del:output_type -> pb.delResp
 	7, // [7:11] is the sub-list for method output_type
 	3, // [3:7] is the sub-list for method input_type

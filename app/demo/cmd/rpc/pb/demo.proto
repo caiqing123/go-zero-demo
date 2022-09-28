@@ -54,6 +54,6 @@ message delResp {
 service demo {
   rpc list(ListReq) returns(ListResp);
   rpc add(AddReq) returns(AddResp);
-  rpc updata(UpdateReq) returns(UpdateResp);
+  rpc update(UpdateReq) returns(UpdateResp);
   rpc del(delReq) returns(delResp);
 }

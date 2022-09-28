@@ -18,7 +18,7 @@ import (
 var (
 	testFieldNames          = builder.RawFieldNames(&Test{})
 	testRows                = strings.Join(testFieldNames, ",")
-	testRowsExpectAutoSet   = strings.Join(stringx.Remove(testFieldNames, "`create_time`", "`update_time`", "`create_at`", "`update_at`"), ",")
+	testRowsExpectAutoSet   = strings.Join(stringx.Remove(testFieldNames, "`id`", "`create_time`", "`update_time`", "`create_at`", "`update_at`"), ",")
 	testRowsWithPlaceHolder = strings.Join(stringx.Remove(testFieldNames, "`id`", "`create_time`", "`update_time`", "`create_at`", "`update_at`"), "=?,") + "=?"
 
 	cacheLooklookUsercenterTestIdPrefix = "cache:looklookUsercenter:test:id:"
@@ -26,7 +26,7 @@ var (
 
 type (
 	testModel interface {
-		Insert(ctx context.Context, data *Test) (sql.Result, error)
+		Insert(ctx context.Context, session sqlx.Session, data *Test) (sql.Result, error)
 		FindOne(ctx context.Context, id int64) (*Test, error)
 		Update(ctx context.Context, data *Test) error
 		Delete(ctx context.Context, id int64) error
@@ -77,11 +77,14 @@ func (m *defaultTestModel) FindOne(ctx context.Context, id int64) (*Test, error)
 	}
 }
 
-func (m *defaultTestModel) Insert(ctx context.Context, data *Test) (sql.Result, error) {
+func (m *defaultTestModel) Insert(ctx context.Context, session sqlx.Session, data *Test) (sql.Result, error) {
 	looklookUsercenterTestIdKey := fmt.Sprintf("%s%v", cacheLooklookUsercenterTestIdPrefix, data.Id)
 	ret, err := m.ExecCtx(ctx, func(ctx context.Context, conn sqlx.SqlConn) (result sql.Result, err error) {
-		query := fmt.Sprintf("insert into %s (%s) values (?, ?, ?)", m.table, testRowsExpectAutoSet)
-		return conn.ExecCtx(ctx, query, data.Id, data.Mobile, data.Nickname)
+		query := fmt.Sprintf("insert into %s (%s) values ( ?, ?)", m.table, testRowsExpectAutoSet)
+		if session != nil {
+			return session.ExecCtx(ctx, query, data.Mobile, data.Nickname)
+		}
+		return conn.ExecCtx(ctx, query, data.Mobile, data.Nickname)
 	}, looklookUsercenterTestIdKey)
 	return ret, err
 }
