@@ -16,6 +16,7 @@ import (
 @server(
 	prefix: demo/v1
 	group: test
+	middleware: ForceUa
 )
 service demo {
 	

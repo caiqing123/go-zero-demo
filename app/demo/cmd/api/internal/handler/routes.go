@@ -12,28 +12,31 @@ import (
 
 func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodGet,
-				Path:    "/test/list",
-				Handler: test.ListHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/test/add",
-				Handler: test.AddHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/test/update",
-				Handler: test.UpdateHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/test/delete",
-				Handler: test.DelHandler(serverCtx),
-			},
-		},
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.ForceUa},
+			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/test/list",
+					Handler: test.ListHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/test/add",
+					Handler: test.AddHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/test/update",
+					Handler: test.UpdateHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/test/delete",
+					Handler: test.DelHandler(serverCtx),
+				},
+			}...,
+		),
 		rest.WithPrefix("/demo/v1"),
 	)
 }

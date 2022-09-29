@@ -9,10 +9,11 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 	"google.golang.org/grpc/status"
 
+	"go-zero-demo/common/errorx"
+
 	"go-zero-demo/app/demo/cmd/api/internal/config"
 	"go-zero-demo/app/demo/cmd/api/internal/handler"
 	"go-zero-demo/app/demo/cmd/api/internal/svc"
-	"go-zero-demo/deploy/errorx"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"
@@ -26,7 +27,7 @@ func main() {
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
 
-	server := rest.MustNewServer(c.RestConf)
+	server := rest.MustNewServer(c.RestConf, rest.WithCors())
 	defer server.Stop()
 
 	ctx := svc.NewServiceContext(c)
