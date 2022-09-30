@@ -2,12 +2,14 @@ package test
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/jinzhu/copier"
 
 	"go-zero-demo/app/demo/cmd/api/internal/svc"
 	"go-zero-demo/app/demo/cmd/api/internal/types"
 	"go-zero-demo/app/demo/cmd/rpc/demo"
+	"go-zero-demo/common/validator"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -27,6 +29,13 @@ func NewUpdateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateLogi
 }
 
 func (l *UpdateLogic) Update(req *types.UpdateReq) (*types.UpdateResp, error) {
+	//验证
+	validator.DBModel = l.svcCtx.DBModel
+	result := validator.NewValidator().Validate(req, "zh")
+	if result != "" {
+		return nil, fmt.Errorf(result)
+	}
+
 	testResp, err := l.svcCtx.DemoRcp.Update(l.ctx, &demo.UpdateReq{
 		Mobile:   req.Mobile,
 		Nickname: req.Nickname,

@@ -29,8 +29,8 @@ type AddResp struct {
 }
 
 type UpdateReq struct {
-	Id       int64  `json:"id"`
-	Mobile   string `json:"mobile"`
+	Id       int64  `json:"id" validate:"number,exists=test"`
+	Mobile   string `json:"mobile" validate:"numeric,max=18,not_exists=test-Id" label:"手机号"`
 	Nickname string `json:"nickname"`
 }
 
